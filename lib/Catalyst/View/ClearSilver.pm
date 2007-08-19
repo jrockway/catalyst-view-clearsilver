@@ -15,6 +15,9 @@ sub new {
     # backcompat config options
     $self->{TEMPLATE_EXTENSION} ||= $self->{template_extension} || '.cs';
     $self->{INCLUDE_HDF} ||= $self->{hdfpaths};
+    if (ref $self->{INCLUDE_HDF} ne 'ARRAY') {
+        $self->{INCLUDE_HDF} = [$self->{INCLUDE_HDF}];
+    }
     unshift @{$self->{INCLUDE_PATH}}, $self->{loadpaths};
     
     return $self;
@@ -38,9 +41,8 @@ sub _create_hdf {
     my ( $self, $stash ) = @_;
 
     my $hdf = ClearSilver::HDF->new;
-    for my $path (@{$self->{INCLUDE_HDF}}) {
-        my $ret = $hdf->readFile($path);
-        die "Failed to read HDF from $path";
+    for my $path (@{$self->{INCLUDE_HDF}||[]}) {
+        $hdf->readFile($path) or die 'Failed to read HDF $path';
     }
     
     my $loadpaths = $self->{INCLUDE_PATH};
@@ -69,7 +71,7 @@ sub _hdf_setValue {
     elsif (ref $val eq 'SCALAR') {
         _hdf_setValue($hdf, $key, $$val);
     } 
-    else {
+    elsif (defined $val) {
         $hdf->setValue($key, "$val");
     }
 }
@@ -114,6 +116,12 @@ Then use it:
 This is the C<ClearSilver> view class.  It works like
 L<Catalyst::View::Templated|Catalyst::View::Templated>, so refer to
 that for more details on what config options and methods you can use.
+
+=head1 CAVEAT
+
+You can't call back into your application from ClearSilver, so most of
+the attributes in C<$c> will be worthless.  Be sure to pre-compute
+anything you need and put it in the stash before rendering.
 
 =head1 METHODS
 
