@@ -1,10 +1,19 @@
 Changes
-MANIFEST
-META.yml
-Makefile.PL
-README
-lib/Catalyst/View/ClearSilver.pm
 lib/Catalyst/Helper/View/ClearSilver.pm
+lib/Catalyst/View/ClearSilver.pm
+MANIFEST			This list of files
+MANIFEST.SKIP
+META.yml
+README
+t/00-load.t
 t/00_compile.t
 t/01_pod.t
 t/02_podcoverage.t
+t/03_live.t
+t/lib/TestApp.pm
+t/lib/TestApp/Controller/Root.pm
+t/lib/TestApp/root/hdf.cs
+t/lib/TestApp/root/test.cs
+t/lib/TestApp/root/test.hdf
+t/lib/TestApp/View/ClearSilver.pm
+t/root/nest.cs
