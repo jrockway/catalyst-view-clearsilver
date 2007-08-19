@@ -23,6 +23,15 @@ sub hdf :Local {
     $c->view->template('hdf.cs');
 }
 
+sub nest :Local {
+    my ($self, $c) = @_;
+    $c->view->template('nest.cs');
+    $c->stash->{data} = 
+      { foo   => bless({ bar => [qw/baz quux/] }),
+        hello => \'world',
+      };
+}
+
 sub end :Private {
     my ($self, $c, @args) = @_;
     $c->detach($c->view('ClearSilver'));

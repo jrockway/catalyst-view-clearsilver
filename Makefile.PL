@@ -13,6 +13,8 @@ WriteMakefile(
         'ClearSilver' => 0,
         'Catalyst'    => 5.7,
         'Catalyst::View::Templated' => 0.01,
+        'Data::Structure::Util' => 0,       
+        'Class::C3' => 0,
     },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean => { FILES => 'Catalyst-View-ClearSilver-*' },

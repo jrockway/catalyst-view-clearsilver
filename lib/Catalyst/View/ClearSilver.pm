@@ -3,6 +3,7 @@ use strict;
 use warnings;
 use base qw(Catalyst::View::Templated);
 
+use Data::Structure::Util qw/unbless circular_off/;
 use ClearSilver;
 use Class::C3;
 
@@ -19,19 +20,24 @@ sub new {
         $self->{INCLUDE_HDF} = [$self->{INCLUDE_HDF}];
     }
     unshift @{$self->{INCLUDE_PATH}}, $self->{loadpaths};
+
+    die "Cannot pass CATALYST_VAR; it's ignored" 
+      if $self->{CATALYST_VAR} ne 'c';
     
     return $self;
 }
 
 sub _render {
     my ( $self, $template, $stash, $args ) = @_;
-
+    
+    delete $stash->{$self->{CATALYST_VAR}};
+    
     my $hdf = $self->_create_hdf($stash);
-    die qq/Couldn't create HDF Dataset/ unless $hdf;
+    die qq/Couldn't create HDF dataset/ unless $hdf;
     
     my $cs = ClearSilver::CS->new($hdf);
     unless ($cs->parseFile($template)) {
-        die qq/Failed to parse/;
+        die qq/Failed to parse template/;
     }
     
     return $cs->render;
@@ -47,6 +53,8 @@ sub _create_hdf {
     
     my $loadpaths = $self->{INCLUDE_PATH};
     _hdf_setValue($hdf, 'hdf.loadpaths', $loadpaths);
+
+    $stash = unbless($stash);    
     while (my ($key, $val) = each %$stash) {
         _hdf_setValue($hdf, $key, $val);
     }
@@ -56,6 +64,7 @@ sub _create_hdf {
 
 sub _hdf_setValue {
     my ($hdf, $key, $val) = @_;
+
     if (ref $val eq 'ARRAY') {
         my $index = 0;
         for my $v (@$val) {
