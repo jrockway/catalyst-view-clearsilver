@@ -1,6 +1,7 @@
 Changes
 lib/Catalyst/Helper/View/ClearSilver.pm
 lib/Catalyst/View/ClearSilver.pm
+Makefile.PL
 MANIFEST			This list of files
 MANIFEST.SKIP
 META.yml
@@ -13,7 +14,7 @@ t/03_live.t
 t/lib/TestApp.pm
 t/lib/TestApp/Controller/Root.pm
 t/lib/TestApp/root/hdf.cs
+t/lib/TestApp/root/nest.cs
 t/lib/TestApp/root/test.cs
 t/lib/TestApp/root/test.hdf
 t/lib/TestApp/View/ClearSilver.pm
-t/root/nest.cs
