@@ -126,11 +126,15 @@ This is the C<ClearSilver> view class.  It works like
 L<Catalyst::View::Templated|Catalyst::View::Templated>, so refer to
 that for more details on what config options and methods you can use.
 
-=head1 CAVEAT
+=head1 CAVEATS
 
 You can't call back into your application from ClearSilver, so most of
 the attributes in C<$c> will be worthless.  Be sure to pre-compute
 anything you need and put it in the stash before rendering.
+
+C<$c> will I<not> be included in your HDF at all, and hence the
+C<CATALYST_VAR> config option is ignored.  Setting it is a fatal
+error.
 
 =head1 METHODS
 
