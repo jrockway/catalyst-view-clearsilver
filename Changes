@@ -1,4 +1,8 @@
 Revision history for Perl Extention Catalyst::View::ClearSilver
 
+0.02 
+	- convert to Templated API
+	- use self, not self->config
+
 0.01 Mon Aug 14 04:12:28 JST 2006
 	- original version
